@@ -1,5 +1,24 @@
 {
+  "name": "brigo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OkayNiceBrian/brigo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OkayNiceBrian/brigo/issues"
+  },
+  "homepage": "https://github.com/OkayNiceBrian/brigo#readme",
   "dependencies": {
-    "vue": "^2.6.14"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.13",
+    "socket.io": "^4.3.0"
   }
 }
