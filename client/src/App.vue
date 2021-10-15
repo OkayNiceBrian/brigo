@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import Chat from './components/Chat.vue'
-import Game from './components/Game.vue'
+  import Chat from './components/Chat.vue'
+  import Game from './components/Game.vue'
 
-export default {
-  name: 'App',
-  components: {
-    Chat,
-    Game,
+  export default {
+    name: 'App',
+    components: {
+      Chat,
+      Game
+    }
   }
-}
 </script>
 
 <style>
@@ -46,7 +46,7 @@ export default {
   #border {
     border-right: 2px solid cyan;
   }
-  @media (max0wdith: 1000px) {
+  @media (max-width: 1000px) {
     #app {
       flex-direction: column;
     }

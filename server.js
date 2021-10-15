@@ -1,6 +1,11 @@
 const server = require('express')();
 const http = require('http').createServer(server);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"]
+    }
+});
 
 io.on('connection', function (socket) {
     console.log('A user connected: ' + socket.id);
@@ -11,7 +16,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        console.log("A user disconnect: " + socket.id);
+        console.log("A user disconnected: " + socket.id);
     });
 });
 

@@ -14,11 +14,11 @@
 </template>
 
 <script>
-    import io from 'socket.io-client';
+    import { io } from 'socket.io-client';
     let socket = io('http://localhost:3000');
 
     export default {
-        name: 'Chat',
+        name: "Chat",
         data: function () {
             return {
                 textInput: null,
@@ -28,14 +28,14 @@
         methods: {
             submitText: function (event) {
                 event.preventDefault();
-                socket.emit('send', this.textInput);
+                socket.emit("send", this.textInput);
             }
         },
         created: function () {
-            socket.on('connect', () => {
-                console.log('Connected');
+            socket.on("connect", () => {
+                console.log("Connected");
             });
-            socket.on('receive', (text) => {
+            socket.on("receive", (text) => {
                 this.textOutput.push(text);
                 this.textInput = null;
             });
@@ -86,7 +86,7 @@
     @media (max-width: 1000px) {
         #container {
             border-left: none;
-            border-top: 2px soid cyan;
+            border-top: 2px solid cyan;
             min-height: 50vh;
         }
         #input {
@@ -95,7 +95,7 @@
         #output {
             margin-right: 10vw;
         }
-        #input[type-text] {
+        #input[type=text] {
             width: 60vw;
         }
         input[type=submit] {
