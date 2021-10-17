@@ -1,3 +1,5 @@
+import { Stone } from "./Stone";
+
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
 c.addEventListener("click", onClick, false);
@@ -21,8 +23,8 @@ let blacksTurn = true;
 draw();
 
 function update() {
-    draw();
     blacksTurn = !blacksTurn;
+    draw();
 }
 
 function draw() {
@@ -33,16 +35,16 @@ function draw() {
 function drawBoard() {
     ctx.strokeStyle = 'black';
     ctx.strokeRect(halfTile, halfTile, tileSize * (dimensions - 1), tileSize * (dimensions - 1));
-    for (let y = 0; y < boardState.length - 1; y++) {
-        for (let x = 0; x < boardState[0].length - 1; x++) {
+    for (let y = 0; y < dimensions - 1; y++) {
+        for (let x = 0; x < dimensions - 1; x++) {
             ctx.strokeRect(halfTile + tileSize * x, halfTile + tileSize * y, tileSize, tileSize);
         }
     }
 }
 
 function drawStones() {
-    for (let y = 0; y < boardState.length; y++) {
-        for (let x = 0; x < boardState[0].length; x++) {
+    for (let y = 0; y < dimensions; y++) {
+        for (let x = 0; x < dimensions; x++) {
             if (boardState[y][x] != 0) {
                 ctx.fillStyle = 'black';
                 ctx.beginPath();
