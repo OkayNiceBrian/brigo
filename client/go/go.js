@@ -1,59 +1,74 @@
-const stone = {
-    none: 0,
-    black: 1,
-    white: 2
-};
-let blackTurn = true;
-let board = [
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none],
-    [stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none, stone.none]
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+c.addEventListener("click", onClick, false);
+
+const dimensions = 9;
+const tileSize = 70;
+const halfTile = tileSize / 2;
+let boardState = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
+let blacksTurn = true;
 
-function stoneClick(id) {
-    const pointId = id.split(",");
-    const point = {
-        x: pointId[0],
-        y: pointId[1]
+draw();
+
+function update() {
+    draw();
+    blacksTurn = !blacksTurn;
+}
+
+function draw() {
+    drawBoard();
+    drawStones();
+}
+
+function drawBoard() {
+    ctx.strokeStyle = 'black';
+    ctx.strokeRect(halfTile, halfTile, tileSize * (dimensions - 1), tileSize * (dimensions - 1));
+    for (let y = 0; y < boardState.length - 1; y++) {
+        for (let x = 0; x < boardState[0].length - 1; x++) {
+            ctx.strokeRect(halfTile + tileSize * x, halfTile + tileSize * y, tileSize, tileSize);
+        }
+    }
+}
+
+function drawStones() {
+    for (let y = 0; y < boardState.length; y++) {
+        for (let x = 0; x < boardState[0].length; x++) {
+            if (boardState[y][x] != 0) {
+                ctx.fillStyle = 'black';
+                ctx.beginPath();
+                ctx.arc(x * tileSize + halfTile + 1, y * tileSize + halfTile + 1, halfTile - 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+}
+
+function onClick(event) {
+    const mousePixels = getMousePos(event);
+    const mouse = {
+        x: Math.floor(mousePixels.x / tileSize),
+        y: Math.floor(mousePixels.y / tileSize)
     };
-
-    if (board[point.x][point.y] == stone.none) {
-        if (blackTurn) {
-            setBlackStone(id, point.x, point.y);
-        } else {
-            setWhiteStone(id, point.x, point.y);
-        }
-
-        switchTurns();
+    if (boardState[mouse.y][mouse.x] == 0) {
+        boardState[mouse.y][mouse.x] = 1;
+        update();
     }
 }
 
-function setBlackStone(id, x, y) {
-    board[x][y] = stone.black;
-    document.getElementById(id).className = "black-piece";
-}
-
-function setWhiteStone(id, x, y) {
-    board[x][y] = stone.white;
-    document.getElementById(id).className = "white-piece";
-}
-function switchTurns() {
-    if (blackTurn) {
-        let elements = document.querySelectorAll('p.empty-black');
-        for (let e of elements) {
-            e.className = 'empty-white';
-        }
-    } else {
-        let elements = document.querySelectorAll('p.empty-white');
-        for (let e of elements) {
-            e.className = 'empty-black';
-        }
-    }
-    blackTurn = !blackTurn;
+function getMousePos(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
 }
